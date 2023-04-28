@@ -14,3 +14,7 @@ func (m *MessengerUtils) PrintInfo(message string) {
 		fmt.Printf("\033[1m%s\033[0m: %s\n", "INFO", message)
 	}
 }
+
+func PrintError(message string, err error) {
+	fmt.Printf("\033[1mERROR:\033[0m %s: %v\n", message, err)
+}
