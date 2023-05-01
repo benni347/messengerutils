@@ -21,7 +21,7 @@ func FuzzPrintInfo(f *testing.F) {
 	f.Add(false, "#fsdaf320")
 
 	f.Fuzz(func(t *testing.T, verbose bool, message string) {
-		m := &MessengerUtils{verbose: verbose}
+		m := &MessengerUtils{Verbose: verbose}
 
 		// Capture output using os.Pipe()
 		oldStdout := os.Stdout
