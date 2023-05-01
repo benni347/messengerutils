@@ -16,7 +16,7 @@ First, import the package:
 
 ```go
 import (
-"github.com/yourusername/messengerutils"
+"github.com/benni347/messengerutils"
 )
 ```
 
