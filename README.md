@@ -24,7 +24,7 @@ Create a MessengerUtils instance with the desired verbosity:
 
 ```go
 messenger := &messengerutils.MessengerUtils{
-verbose: true,
+Verbose: true,
 }
 ```
 
@@ -57,7 +57,7 @@ ERROR: An error occurred: This is an error message.
 
 ## MessengerUtils struct
 
-    verbose: A boolean flag to determine if the PrintInfo method should output messages. If set to true, messages will be printed; otherwise, they will be silenced.
+    Verbose: A boolean flag to determine if the PrintInfo method should output messages. If set to true, messages will be printed; otherwise, they will be silenced.
 
 ## Methods
 
