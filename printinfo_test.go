@@ -8,7 +8,17 @@ import (
 
 func FuzzPrintInfo(f *testing.F) {
 	f.Add(true, "Test message")
+	f.Add(true, "-1230")
+	f.Add(true, "1")
+	f.Add(true, "123")
+	f.Add(true, "123message")
+	f.Add(true, "#fsdaf320")
 	f.Add(false, "Test message")
+	f.Add(false, "-1230")
+	f.Add(false, "1")
+	f.Add(false, "123")
+	f.Add(false, "123message")
+	f.Add(false, "#fsdaf320")
 
 	f.Fuzz(func(t *testing.T, verbose bool, message string) {
 		m := &MessengerUtils{verbose: verbose}
