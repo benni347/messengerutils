@@ -53,6 +53,32 @@ Output:
 ERROR: An error occurred: This is an error message.
 ```
 
+Create an Event instance:
+
+```go
+event := &messengerutils.Event{}
+```
+
+Subscribe to the event with a listener function:
+
+```go
+event.Subscribe(func(data interface{}) {
+    fmt.Printf("Received data: %v\n", data)
+})
+```
+
+Emit an event with data:
+
+```go
+event.Emit("Some data")
+```
+
+Output:
+
+```
+Received data: Some data
+```
+
 # API
 
 ## MessengerUtils struct
