@@ -28,6 +28,11 @@ func PrintError(message string, err error) {
 	fmt.Printf("\033[1mERROR:\033[0m %s: %v\n", message, err)
 }
 
+// Event is a simple event system that allows multiple listeners
+// to subscribe and receive notifications when an event is emitted.
+// @typedef {Object} Event
+// @property {Array<Function>} listeners - An array of listener functions to be called when the event is emitted.
+// @property {sync.Mutex} lock - A mutex used for ensuring thread-safety when modifying the listeners array or emitting events.
 type Event struct {
 	listeners []func(interface{})
 	lock      sync.Mutex
