@@ -1,12 +1,14 @@
-package messengerutils
+package messengerutils_test
 
 import (
 	"sync"
 	"testing"
+
+	"github.com/benni347/messengerutils"
 )
 
 func TestEvent(t *testing.T) {
-	event := &Event{}
+	event := &messengerutils.Event{}
 
 	var receivedData []string
 	var wg sync.WaitGroup
