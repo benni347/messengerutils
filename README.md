@@ -90,6 +90,16 @@ Received data: Some data
     PrintInfo(message string): Prints the provided message to the console with the prefix "INFO" in bold, if the MessengerUtils's verbose flag is set to true.
     PrintError(message string, err error): Formats and prints an error message to the console with a bold "ERROR:" label.
 
+## Event struct
+
+    listeners: An array of listener functions to be called when the event is emitted.
+    lock: A mutex used for ensuring thread-safety when modifying the listeners array or emitting events.
+
+### Event Methods
+
+    Subscribe(listener func(interface{})): Adds a listener function to the Event object.
+    Emit(data interface{}): Triggers the event, notifying all subscribed listeners with the provided data.
+
 ## License
 
 This package is released under the MIT License. See the [LICENSE](LICENSE) file for more information.
