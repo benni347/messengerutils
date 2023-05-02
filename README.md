@@ -85,7 +85,7 @@ Received data: Some data
 
     Verbose: A boolean flag to determine if the PrintInfo method should output messages. If set to true, messages will be printed; otherwise, they will be silenced.
 
-## Methods
+### Methods
 
     PrintInfo(message string): Prints the provided message to the console with the prefix "INFO" in bold, if the MessengerUtils's verbose flag is set to true.
     PrintError(message string, err error): Formats and prints an error message to the console with a bold "ERROR:" label.
