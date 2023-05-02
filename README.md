@@ -1,6 +1,8 @@
 # **Messenger Utils**
 
-This Go package provides a simple utility for printing informational and error messages to the console. It is designed to allow for easy management of logging verbosity and formatting of output.
+[![Lint Code Base](https://github.com/benni347/messengerutils/actions/workflows/super-linter.yml/badge.svg?branch=main)](https://github.com/benni347/messengerutils/actions/workflows/super-linter.yml)
+
+This Go package provides a simple utility for printing informational and error messages to the console. It is designed to allow for easy management of logging verbosity and formatting of output. Additionally, it includes a simple event system that allows multiple listeners to subscribe and receive notifications when an event is emitted.
 
 ## **Installation**
 
@@ -36,7 +38,7 @@ messenger.PrintInfo("This is an informational message.")
 
 Output:
 
-```
+```sh
 INFO: This is an informational message.
 ```
 
@@ -49,20 +51,63 @@ messengerutils.PrintError("An error occurred", err)
 
 Output:
 
-```
+```sh
 ERROR: An error occurred: This is an error message.
 ```
 
-# API
+Create an Event instance:
 
-## MessengerUtils struct
+```go
+event := &messengerutils.Event{}
+```
 
+Subscribe to the event with a listener function:
+
+```go
+event.Subscribe(func(data interface{}) {
+    fmt.Printf("Received data: %v\n", data)
+})
+```
+
+Emit an event with data:
+
+```go
+event.Emit("Some data")
+```
+
+Output:
+
+```sh
+Received data: Some data
+```
+
+## API
+
+### MessengerUtils struct
+
+```sh
     Verbose: A boolean flag to determine if the PrintInfo method should output messages. If set to true, messages will be printed; otherwise, they will be silenced.
+```
 
-## Methods
+#### Methods
 
-    PrintInfo(message string): Prints the provided message to the console with the prefix "INFO" in bold, if the MessengerUtils's verbose flag is set to true.
+```go
     PrintError(message string, err error): Formats and prints an error message to the console with a bold "ERROR:" label.
+```
+
+### Event struct
+
+```sh
+    listeners: An array of listener functions to be called when the event is emitted.
+    lock: A mutex used for ensuring thread-safety when modifying the listeners array or emitting events.
+```
+
+#### Event Methods
+
+```go
+    Subscribe(listener func(interface{})): Adds a listener function to the Event object.
+    Emit(data interface{}): Triggers the event, notifying all subscribed listeners with the provided data.
+```
 
 ## License
 
