@@ -38,6 +38,11 @@ type Event struct {
 	lock      sync.Mutex
 }
 
+// Subscribe adds a listener function to the Event object.
+// @method
+// @memberof Event
+// @param {Function} listener - A function to be called when the event is emitted. It takes a single argument, which is the data passed when emitting the event.
+// @returns {void}
 func (e *Event) Subscribe(listener func(interface{})) {
 	e.lock.Lock()
 	defer e.lock.Unlock()
