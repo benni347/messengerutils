@@ -1,6 +1,6 @@
 # **Messenger Utils**
 
-This Go package provides a simple utility for printing informational and error messages to the console. It is designed to allow for easy management of logging verbosity and formatting of output.
+This Go package provides a simple utility for printing informational and error messages to the console. It is designed to allow for easy management of logging verbosity and formatting of output. Additionally, it includes a simple event system that allows multiple listeners to subscribe and receive notifications when an event is emitted.
 
 ## **Installation**
 
