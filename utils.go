@@ -1,6 +1,9 @@
 package messengerutils
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 type MessengerUtils struct {
 	Verbose bool
@@ -23,4 +26,23 @@ func (m *MessengerUtils) PrintInfo(message string) {
 // @returns {void}
 func PrintError(message string, err error) {
 	fmt.Printf("\033[1mERROR:\033[0m %s: %v\n", message, err)
+}
+
+type Event struct {
+	listeners []func(interface{})
+	lock      sync.Mutex
+}
+
+func (e *Event) Subscribe(listener func(interface{})) {
+	e.lock.Lock()
+	defer e.lock.Unlock()
+	e.listeners = append(e.listeners, listener)
+}
+
+func (e *Event) Emit(data interface{}) {
+	e.lock.Lock()
+	defer e.lock.Unlock()
+	for _, listener := range e.listeners {
+		listener(data)
+	}
 }
