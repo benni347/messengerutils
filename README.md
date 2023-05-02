@@ -85,22 +85,31 @@ Received data: Some data
 
 ### MessengerUtils struct
 
-    Verbose: A boolean flag to determine if the PrintInfo method should output messages. If set to true, messages will be printed; otherwise, they will be silenced.
+```
+  Verbose: A boolean flag to determine if the PrintInfo method should output messages. If set to true, messages will be printed; otherwise, they will be silenced.
+```
 
 #### Methods
 
+```
     PrintInfo(message string): Prints the provided message to the console with the prefix "INFO" in bold, if the MessengerUtils's verbose flag is set to true.
     PrintError(message string, err error): Formats and prints an error message to the console with a bold "ERROR:" label.
+```
 
 ### Event struct
 
+```
+
     listeners: An array of listener functions to be called when the event is emitted.
     lock: A mutex used for ensuring thread-safety when modifying the listeners array or emitting events.
+```
 
 #### Event Methods
 
-    Subscribe(listener func(interface{})): Adds a listener function to the Event object.
-    Emit(data interface{}): Triggers the event, notifying all subscribed listeners with the provided data.
+```
+  Subscribe(listener func(interface{})): Adds a listener function to the Event object.
+   Emit(data interface{}): Triggers the event, notifying all subscribed listeners with the provided data.
+```
 
 ## License
 
