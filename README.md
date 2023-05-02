@@ -38,7 +38,7 @@ messenger.PrintInfo("This is an informational message.")
 
 Output:
 
-```
+```sh
 INFO: This is an informational message.
 ```
 
@@ -51,7 +51,7 @@ messengerutils.PrintError("An error occurred", err)
 
 Output:
 
-```
+```sh
 ERROR: An error occurred: This is an error message.
 ```
 
@@ -77,7 +77,7 @@ event.Emit("Some data")
 
 Output:
 
-```
+```sh
 Received data: Some data
 ```
 
@@ -91,20 +91,20 @@ Received data: Some data
 
 #### Methods
 
-```
+```go
     PrintError(message string, err error): Formats and prints an error message to the console with a bold "ERROR:" label.
 ```
 
 ### Event struct
 
-```
+```sh
     listeners: An array of listener functions to be called when the event is emitted.
     lock: A mutex used for ensuring thread-safety when modifying the listeners array or emitting events.
 ```
 
 #### Event Methods
 
-```
+```go
     Subscribe(listener func(interface{})): Adds a listener function to the Event object.
     Emit(data interface{}): Triggers the event, notifying all subscribed listeners with the provided data.
 ```
