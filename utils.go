@@ -49,6 +49,11 @@ func (e *Event) Subscribe(listener func(interface{})) {
 	e.listeners = append(e.listeners, listener)
 }
 
+// Emit triggers the event, notifying all subscribed listeners with the provided data.
+// @method
+// @memberof Event
+// @param {interface{}} data - The data to be passed to each listener when the event is emitted.
+// @returns {void}
 func (e *Event) Emit(data interface{}) {
 	e.lock.Lock()
 	defer e.lock.Unlock()
