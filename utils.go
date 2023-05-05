@@ -9,12 +9,16 @@ type MessengerUtils struct {
 	Verbose bool
 }
 
-// PrintInfo prints the provided message to the console with the prefix "INFO" in bold, if the MessengerUtils's verbose flag is set to true.
-// @param {string} message - The message to print to the console.
+// PrintInfo prints the provided message to the console with the prefix "INFO" in bold, if the MessengerUtils's verbose flag is set to true. The function accepts a variadic string parameter and concatenates all strings before printing.
+// @param {string} message - One or more strings to print as the message.
 // @returns {void}
-func (m *MessengerUtils) PrintInfo(message string) {
+func (m *MessengerUtils) PrintInfo(message ...string) {
 	if m.Verbose {
-		fmt.Printf("\033[1m%s\033[0m: %s\n", "INFO", message)
+		final_message := ""
+		for _, word := range message {
+			final_message += word
+		}
+		fmt.Printf("\033[1m%s\033[0m: %s\n", "INFO", final_message)
 	}
 }
 
