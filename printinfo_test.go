@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"os"
 	"testing"
+	"time"
 )
 
 func FuzzPrintInfo(f *testing.F) {
@@ -46,58 +47,78 @@ func FuzzPrintInfo(f *testing.F) {
 }
 
 func TestPrintInfo(t *testing.T) {
-	// Test cases
-	tests := []struct {
-		name     string
-		verbose  bool
-		message  []string
-		expected string
+	testCases := []struct {
+		name           string
+		verbose        bool
+		message        []interface{}
+		expectedOutput string
 	}{
 		{
-			name:     "verbose_true_single_string",
-			verbose:  true,
-			message:  []string{"test"},
-			expected: "\033[1mINFO\033[0m: test\n",
+			name:           "Test with a single string message",
+			verbose:        true,
+			message:        []interface{}{"Hello, world!"},
+			expectedOutput: "\033[1mINFO\033[0m: Hello, world!\n",
 		},
 		{
-			name:     "verbose_true_multiple_strings",
-			verbose:  true,
-			message:  []string{"test", " message"},
-			expected: "\033[1mINFO\033[0m: test message\n",
+			name:           "Test with multiple string messages",
+			verbose:        true,
+			message:        []interface{}{"Hello,", "world!"},
+			expectedOutput: "\033[1mINFO\033[0m: Hello, world!\n",
 		},
 		{
-			name:     "verbose_false_single_string",
-			verbose:  false,
-			message:  []string{"test"},
-			expected: "",
+			name:           "Test with a single integer message",
+			verbose:        true,
+			message:        []interface{}{42},
+			expectedOutput: "\033[1mINFO\033[0m: 42\n",
+		},
+		{
+			name:           "Test with a single time.Time message",
+			verbose:        true,
+			message:        []interface{}{time.Date(2023, 5, 5, 12, 0, 0, 0, time.UTC)},
+			expectedOutput: "\033[1mINFO\033[0m: 2023-05-05T12:00:00Z\n",
+		},
+		{
+			name:    "Test with a mix of message types",
+			verbose: true,
+			message: []interface{}{
+				"The answer is",
+				42,
+				"at",
+				time.Date(2023, 5, 5, 12, 0, 0, 0, time.UTC),
+			},
+			expectedOutput: "\033[1mINFO\033[0m: The answer is 42 at 2023-05-05T12:00:00Z\n",
+		},
+		{
+			name:           "Test with verbose flag set to false",
+			verbose:        false,
+			message:        []interface{}{"This message should not be printed"},
+			expectedOutput: "",
+		},
+		{
+			name:           "Test with verbose flag set to true and message is empty",
+			verbose:        true,
+			message:        []interface{}{},
+			expectedOutput: "\033[1mINFO\033[0m: \n",
 		},
 	}
 
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			// Prepare the MessengerUtils
-			messenger := &MessengerUtils{
-				Verbose: test.verbose,
-			}
-
-			// Capture output
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
 			oldStdout := os.Stdout
 			r, w, _ := os.Pipe()
 			os.Stdout = w
 
-			// Execute the function
-			messenger.PrintInfo(test.message...)
+			m := &MessengerUtils{Verbose: tc.verbose}
+			m.PrintInfo(tc.message...)
 
-			// Restore os.Stdout and read the captured output
 			w.Close()
 			os.Stdout = oldStdout
 			var buf bytes.Buffer
 			buf.ReadFrom(r)
 			got := buf.String()
 
-			// Check the result
-			if got != test.expected {
-				t.Errorf("Expected: %q, got: %q", test.expected, got)
+			if got != tc.expectedOutput {
+				t.Errorf("PrintInfo() = %q, want %q", got, tc.expectedOutput)
 			}
 		})
 	}
