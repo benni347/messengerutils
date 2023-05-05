@@ -62,7 +62,7 @@ func TestPrintInfo(t *testing.T) {
 		{
 			name:     "verbose_true_multiple_strings",
 			verbose:  true,
-			message:  []string{"test", " message"},
+			message:  []string{"test", "message"},
 			expected: "\033[1mINFO\033[0m: test message\n",
 		},
 		{
@@ -86,7 +86,11 @@ func TestPrintInfo(t *testing.T) {
 			os.Stdout = w
 
 			// Execute the function
-			messenger.PrintInfo(test.message...)
+			interfaceSlice := make([]interface{}, len(test.message))
+			for i, d := range test.message {
+				interfaceSlice[i] = d
+			}
+			messenger.PrintInfo(interfaceSlice...)
 
 			// Restore os.Stdout and read the captured output
 			w.Close()

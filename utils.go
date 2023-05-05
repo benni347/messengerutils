@@ -2,7 +2,9 @@ package messengerutils
 
 import (
 	"fmt"
+	"strconv"
 	"sync"
+	"time"
 )
 
 type MessengerUtils struct {
@@ -12,13 +14,25 @@ type MessengerUtils struct {
 // PrintInfo prints the provided message to the console with the prefix "INFO" in bold, if the MessengerUtils's verbose flag is set to true. The function accepts a variadic string parameter and concatenates all strings before printing.
 // @param {string} message - One or more strings to print as the message.
 // @returns {void}
-func (m *MessengerUtils) PrintInfo(message ...string) {
+func (m *MessengerUtils) PrintInfo(message ...interface{}) {
 	if m.Verbose {
-		final_message := ""
-		for _, word := range message {
-			final_message += word
+		finalMessage := ""
+		for i, word := range message {
+			if i > 0 {
+				finalMessage += " "
+			}
+			switch v := word.(type) {
+			case string:
+				finalMessage += v
+			case int:
+				finalMessage += strconv.Itoa(v)
+			case time.Time:
+				finalMessage += v.Format(time.RFC3339)
+			default:
+				finalMessage += fmt.Sprintf("Unknown type: %T", v)
+			}
 		}
-		fmt.Printf("\033[1m%s\033[0m: %s\n", "INFO", final_message)
+		fmt.Printf("\033[1m%s\033[0m: %s\n", "INFO", finalMessage)
 	}
 }
 
