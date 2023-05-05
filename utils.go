@@ -3,6 +3,7 @@ package messengerutils
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -11,29 +12,33 @@ type MessengerUtils struct {
 	Verbose bool
 }
 
-// PrintInfo prints the provided message to the console with the prefix "INFO" in bold, if the MessengerUtils's verbose flag is set to true. The function accepts a variadic string parameter and concatenates all strings before printing.
-// @param {string} message - One or more strings to print as the message.
+// PrintInfo prints the provided message to the console with the prefix "INFO" in bold, if the MessengerUtils's verbose flag is set to true. The function accepts a variadic interface{} parameter and concatenates all strings before printing.
+// @param {interface{}} message - One or more values to print as the message.
 // @returns {void}
 func (m *MessengerUtils) PrintInfo(message ...interface{}) {
-	if m.Verbose {
-		finalMessage := ""
-		for i, word := range message {
-			if i > 0 {
-				finalMessage += " "
-			}
-			switch v := word.(type) {
-			case string:
-				finalMessage += v
-			case int:
-				finalMessage += strconv.Itoa(v)
-			case time.Time:
-				finalMessage += v.Format(time.RFC3339)
-			default:
-				finalMessage += fmt.Sprintf("Unknown type: %T", v)
-			}
-		}
-		fmt.Printf("\033[1m%s\033[0m: %s\n", "INFO", finalMessage)
+	if !m.Verbose {
+		return
 	}
+
+	var finalMessage strings.Builder
+	for i, word := range message {
+		if i > 0 {
+			finalMessage.WriteString(" ")
+		}
+
+		switch v := word.(type) {
+		case string:
+			finalMessage.WriteString(v)
+		case int:
+			finalMessage.WriteString(strconv.Itoa(v))
+		case time.Time:
+			finalMessage.WriteString(v.Format(time.RFC3339))
+		default:
+			finalMessage.WriteString(fmt.Sprintf("Unknown type: %T", v))
+		}
+	}
+
+	fmt.Printf("\033[1m%s\033[0m: %s\n", "INFO", finalMessage.String())
 }
 
 // PrintError formats and prints an error message to standard output.
