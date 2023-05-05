@@ -44,3 +44,61 @@ func FuzzPrintInfo(f *testing.F) {
 		}
 	})
 }
+
+func TestPrintInfo(t *testing.T) {
+	// Test cases
+	tests := []struct {
+		name     string
+		verbose  bool
+		message  []string
+		expected string
+	}{
+		{
+			name:     "verbose_true_single_string",
+			verbose:  true,
+			message:  []string{"test"},
+			expected: "\033[1mINFO\033[0m: test\n",
+		},
+		{
+			name:     "verbose_true_multiple_strings",
+			verbose:  true,
+			message:  []string{"test", " message"},
+			expected: "\033[1mINFO\033[0m: test message\n",
+		},
+		{
+			name:     "verbose_false_single_string",
+			verbose:  false,
+			message:  []string{"test"},
+			expected: "",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Prepare the MessengerUtils
+			messenger := &MessengerUtils{
+				Verbose: test.verbose,
+			}
+
+			// Capture output
+			oldStdout := os.Stdout
+			r, w, _ := os.Pipe()
+			os.Stdout = w
+
+			// Execute the function
+			messenger.PrintInfo(test.message...)
+
+			// Restore os.Stdout and read the captured output
+			w.Close()
+			os.Stdout = oldStdout
+			var buf bytes.Buffer
+			buf.ReadFrom(r)
+			got := buf.String()
+
+			// Check the result
+			if got != test.expected {
+				t.Errorf("Expected: %q, got: %q", test.expected, got)
+			}
+		})
+	}
+}
