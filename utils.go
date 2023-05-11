@@ -46,6 +46,37 @@ func PrintError(message string, err error) {
 	fmt.Printf("\033[1mERROR:\033[0m %s: %v\n", message, err)
 }
 
+// PrintToDo formats and prints a to-do message to standard output.
+//
+// @param {interface{}} message - An array of any type that forms the to-do message to display.
+//
+//	The function checks each element in the message. If it is a time.Time type,
+//	it is formatted according to RFC3339. All elements are then converted into
+//	their string representations, concatenated into a single string,
+//	then formatted and printed the string to the console with a bold "TODO:" label
+//	using ANSI escape codes.
+//
+// @returns {void}
+func PrintToDo(message ...interface{}) {
+	finalMessage := ""
+	for i, word := range message {
+		if i > 0 {
+			finalMessage += " "
+		}
+		switch v := word.(type) {
+		case string:
+			finalMessage += v
+		case int:
+			finalMessage += strconv.Itoa(v)
+		case time.Time:
+			finalMessage += v.Format(time.RFC3339)
+		default:
+			finalMessage += fmt.Sprintf("Unknown type: %T", v)
+		}
+	}
+	fmt.Printf("\033[1mTODO:\033[0m %s\n", finalMessage)
+}
+
 // Event is a simple event system that allows multiple listeners
 // to subscribe and receive notifications when an event is emitted.
 // @typedef {Object} Event
