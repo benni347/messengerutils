@@ -16,22 +16,7 @@ type MessengerUtils struct {
 // @returns {void}
 func (m *MessengerUtils) PrintInfo(message ...interface{}) {
 	if m.Verbose {
-		finalMessage := ""
-		for i, word := range message {
-			if i > 0 {
-				finalMessage += " "
-			}
-			switch v := word.(type) {
-			case string:
-				finalMessage += v
-			case int:
-				finalMessage += strconv.Itoa(v)
-			case time.Time:
-				finalMessage += v.Format(time.RFC3339)
-			default:
-				finalMessage += fmt.Sprintf("Unknown type: %T", v)
-			}
-		}
+		finalMessage := formatMessage(message...)
 		fmt.Printf("\033[1m%s\033[0m: %s\n", "INFO", finalMessage)
 	}
 }
@@ -58,22 +43,7 @@ func PrintError(message string, err error) {
 //
 // @returns {void}
 func PrintToDo(message ...interface{}) {
-	finalMessage := ""
-	for i, word := range message {
-		if i > 0 {
-			finalMessage += " "
-		}
-		switch v := word.(type) {
-		case string:
-			finalMessage += v
-		case int:
-			finalMessage += strconv.Itoa(v)
-		case time.Time:
-			finalMessage += v.Format(time.RFC3339)
-		default:
-			finalMessage += fmt.Sprintf("Unknown type: %T", v)
-		}
-	}
+	finalMessage := formatMessage(message...)
 	fmt.Printf("\033[1mTODO:\033[0m %s\n", finalMessage)
 }
 
@@ -109,4 +79,24 @@ func (e *Event) Emit(data interface{}) {
 	for _, listener := range e.listeners {
 		listener(data)
 	}
+}
+
+func formatMessage(message ...interface{}) string {
+	finalMessage := ""
+	for i, word := range message {
+		if i > 0 {
+			finalMessage += " "
+		}
+		switch v := word.(type) {
+		case string:
+			finalMessage += v
+		case int:
+			finalMessage += strconv.Itoa(v)
+		case time.Time:
+			finalMessage += v.Format(time.RFC3339)
+		default:
+			finalMessage += fmt.Sprintf("Unknown type: %T", v)
+		}
+	}
+	return finalMessage
 }
