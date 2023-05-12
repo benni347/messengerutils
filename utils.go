@@ -94,6 +94,8 @@ func formatMessage(message ...interface{}) string {
 			finalMessage += strconv.Itoa(v)
 		case time.Time:
 			finalMessage += v.Format(time.RFC3339)
+		case []uint8:
+			finalMessage += string(v) // Converts the []uint8 slice to a string
 		default:
 			finalMessage += fmt.Sprintf("Unknown type: %T", v)
 		}
