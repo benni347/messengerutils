@@ -115,6 +115,16 @@ func formatMessage(message ...interface{}) string {
 				numbers = append(numbers, fmt.Sprintf("%d", val))
 			}
 			finalMessage += strings.Join(numbers, ", ")
+		case uint:
+			finalMessage += fmt.Sprintf("%d", v)
+		case uint8:
+			finalMessage += fmt.Sprintf("%d", v)
+		case uint16:
+			finalMessage += fmt.Sprintf("%d", v)
+		case uint32:
+			finalMessage += fmt.Sprintf("%d", v)
+		case uint64:
+			finalMessage += fmt.Sprintf("%d", v)
 		default:
 			finalMessage += fmt.Sprintf("Unknown type: %T", v)
 		}
