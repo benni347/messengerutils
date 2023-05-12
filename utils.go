@@ -3,6 +3,7 @@ package messengerutils
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -94,6 +95,26 @@ func formatMessage(message ...interface{}) string {
 			finalMessage += strconv.Itoa(v)
 		case time.Time:
 			finalMessage += v.Format(time.RFC3339)
+		case []uint8:
+			finalMessage += string(v) // Converts the []uint8 slice to a string
+		case []uint16:
+			var numbers []string
+			for _, val := range v {
+				numbers = append(numbers, fmt.Sprintf("%d", val))
+			}
+			finalMessage += strings.Join(numbers, ", ")
+		case []uint32:
+			var numbers []string
+			for _, val := range v {
+				numbers = append(numbers, fmt.Sprintf("%d", val))
+			}
+			finalMessage += strings.Join(numbers, ", ")
+		case []uint64:
+			var numbers []string
+			for _, val := range v {
+				numbers = append(numbers, fmt.Sprintf("%d", val))
+			}
+			finalMessage += strings.Join(numbers, ", ")
 		default:
 			finalMessage += fmt.Sprintf("Unknown type: %T", v)
 		}
