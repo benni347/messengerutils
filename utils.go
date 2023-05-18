@@ -2,6 +2,7 @@ package messengerutils
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 	"sync"
@@ -130,4 +131,12 @@ func formatMessage(message ...interface{}) string {
 		}
 	}
 	return finalMessage
+}
+
+func validateEmailRegex(email string) bool {
+	emailValidationRegexSnippet := regexp.MustCompile(
+		`^[a-zA-Z0-9.!#$%&'*+/=?^_` + "`" + `{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$`,
+	)
+
+	return emailValidationRegexSnippet.MatchString(email)
 }
