@@ -69,7 +69,7 @@ func TestValidateEmailRegex(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := validateEmailRegex(tt.email); got != tt.want {
+			if got := ValidateEmailRegex(tt.email); got != tt.want {
 				t.Errorf("validateEmailRegex() = %v, want %v", got, tt.want)
 			}
 		})

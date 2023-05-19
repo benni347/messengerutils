@@ -133,7 +133,10 @@ func formatMessage(message ...interface{}) string {
 	return finalMessage
 }
 
-func validateEmailRegex(email string) bool {
+// ValidateEmailRegex checks if the provided email string matches the regex for a valid email address.
+// @param {string} email - The email address to validate.
+// @returns {bool} - True if the email is valid, false otherwise.
+func ValidateEmailRegex(email string) bool {
 	emailValidationRegexSnippet := regexp.MustCompile(
 		`^[a-zA-Z0-9.!#$%&'*+/=?^_` + "`" + `{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$`,
 	)
